@@ -22,12 +22,12 @@ import { OrderService } from 'src/services/order.service';
 @ApiResponse({ status: 401, description: 'Unauthorized.' })
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiResponse({ status: 500, description: 'Internal server error.' })
-@Controller()
+@Controller("order")
 export class OrderController {
   constructor(private readonly orderService: OrderService) { }
 
-  @Get('/')
-  @ApiOperation({ description: '' })
+  @Get('/all')
+  @ApiOperation({ description: 'Gets all orders from cache' })
   @ApiOkGenericListResponse(OrderDTO)
   getOrders(): Promise<GenericResponseDto<OrderDTO[]>> {
     return this.orderService.getOrders();
@@ -35,7 +35,7 @@ export class OrderController {
 
 
   @HttpCode(200)
-  @Post('/')
+  @Post('/execute')
   @ApiOperation({ description: 'Execute a order.' })
   @ApiOkGenericResponse(OrderDTO)
   executeOrder(
